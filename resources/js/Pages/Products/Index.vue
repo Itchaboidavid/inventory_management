@@ -1,22 +1,32 @@
 <script setup>
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
+import Modal from '@/Components/Modal.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
-import { onMounted } from 'vue';
 import { ref } from 'vue';
 import { useToast } from 'vue-toastification';
+import { Teleport } from 'vue';
+import { onMounted } from 'vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import TextInput from '@/Components/TextInput.vue';
+import InputError from '@/Components/InputError.vue';
 
-$(document).ready(function () {
+onMounted(() => {
     $('#productsTable').DataTable();
 });
 
+
 const toast = useToast();
 const form = useForm({});
+const orderForm = useForm({
+    quantity: ''
+});
 const page = usePage();
-
 const user = page.props.auth.user;
+
+const isModalOpen = ref(false);
 
 const deleteProduct = (id) => {
     if (confirm('Are you sure you want to delete this product?')) {
@@ -26,10 +36,9 @@ const deleteProduct = (id) => {
     }
 }
 
-
 defineProps({
     products: Array
-})
+});
 </script>
 
 
@@ -109,7 +118,41 @@ defineProps({
                                         </Dropdown>
                                     </td>
                                     <td v-else>
+                                        <button class="btn btn-accent text-white"
+                                            @click="isModalOpen = true">Order</button>
+                                        <Teleport to="body">
+                                            <div class="modal" :class="{ 'modal-open': isModalOpen }">
+                                                <div class="modal-box">
+                                                    <h3 class="font-bold text-lg text-slate-200 text-center">
+                                                        {{ product.name }}
+                                                    </h3>
+                                                    <form @submit.prevent="handleSubmit">
+                                                        <div class="mt-4">
+                                                            <InputLabel for="quantity" value="Quantity"
+                                                                class="text-slate-200" />
 
+                                                            <TextInput id="quantity" type="number" min="1"
+                                                                class="mt-1 block w-full text-slate-900"
+                                                                v-model="orderForm.quantity" />
+
+                                                            <InputError class="mt-2"
+                                                                :message="orderForm.errors.quantity" />
+                                                        </div>
+
+                                                        <div class="mt-4">
+                                                            <PrimaryButton class="block w-full justify-center"
+                                                                :class="{ 'opacity-25': form.processing }"
+                                                                :disabled="form.processing">
+                                                                Place Order
+                                                            </PrimaryButton>
+                                                        </div>
+                                                    </form>
+                                                    <div class="modal-action">
+                                                        <button @click="isModalOpen = false" class="btn">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Teleport>
                                     </td>
                                 </tr>
                             </tbody>
