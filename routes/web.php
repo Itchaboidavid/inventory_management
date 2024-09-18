@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ProductController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\StaffController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SupplierController;
 
 Route::get('/', function () {
@@ -34,6 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('suppliers', SupplierController::class);
     Route::resource('categories', CategoryController::class);
+
+    Route::get('/staff', [StaffController::class, 'index'])->name('staff.index');
 });
 
 require __DIR__.'/auth.php';

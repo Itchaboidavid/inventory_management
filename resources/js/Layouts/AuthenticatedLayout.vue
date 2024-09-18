@@ -108,6 +108,20 @@ const user = page.props.auth.user;
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('products.index')" :active="route().current('products.index')">
+                            Products
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('suppliers.index')"
+                            :active="route().current('suppliers.index')">
+                            Suppliers
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('categories.index')"
+                            :active="route().current('categories.index')">
+                            Categories
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('staff.index')" :active="route().current('staff.index')">
+                            Staff
+                        </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->

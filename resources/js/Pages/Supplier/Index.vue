@@ -40,7 +40,7 @@ defineProps({
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
+                    <div class="p-6 text-gray-900 overflow-auto">
                         <div class="flex justify-between items-center mb-10">
                             <h3 class="text-lg font-semibold"><i class="fa-solid fa-table"></i> Suppliers Table</h3>
 
@@ -56,7 +56,7 @@ defineProps({
                                     <th><i class="fa-solid fa-building"></i> &nbsp;Name</th>
                                     <th><i class="fa-solid fa-user"></i> &nbsp;Contact Person</th>
                                     <th><i class="fa-solid fa-phone"></i> &nbsp;Phone</th>
-                                    <th><i class="fa-solid fa-envelope"></i> &nbsp;Email</th>
+                                    <th><i class="fa-solid fa-at"></i> &nbsp;Email</th>
                                     <th><i class="fa-solid fa-location-dot"></i> &nbsp;Address</th>
                                     <th></th>
                                 </tr>

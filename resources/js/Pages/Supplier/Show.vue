@@ -44,7 +44,7 @@ defineProps({
 
                             <div class="space-y-4">
                                 <p class="space-x-1">
-                                    <i class="fa-solid fa-envelope"></i>
+                                    <i class="fa-solid fa-at"></i>
                                     Email: <b>{{ supplier.email }}</b>
                                 </p>
                                 <p class="space-x-1">
