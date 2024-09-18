@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\Supplier;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 
@@ -14,8 +16,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        
+        $products = Product::with('category', 'supplier')->get();
+
         return Inertia::render('Products/Index', ['products' => $products]);
     }
 
@@ -24,7 +26,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $suppliers = Supplier::all();
+        $categories = Category::all();
+
+        return Inertia::render('Products/Create', ['suppliers' => $suppliers, 'categories' => $categories]);
     }
 
     /**
@@ -32,7 +37,11 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        $request->validated();
+
+        $product = Product::create($request->all());
+
+        return redirect()->route('products.index');
     }
 
     /**
@@ -40,7 +49,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        $product->load('category', 'supplier');
+        return Inertia::render('Products/Show', ['product' => $product]);
     }
 
     /**
@@ -48,7 +58,15 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $product->load('supplier', 'category');
+        $suppliers = Supplier::all();
+        $categories = Category::all();
+
+        return Inertia::render('Products/Edit', [
+            'product' => $product, 
+            'suppliers' => $suppliers,
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -56,7 +74,11 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $request->validated();
+
+        $product->update($request->all());
+
+        return redirect()->route('products.index');
     }
 
     /**
@@ -64,6 +86,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return redirect()->route('products.index');
     }
 }

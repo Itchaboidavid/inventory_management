@@ -40,10 +40,11 @@ const user = page.props.auth.user;
                                 <NavLink :href="route('suppliers.index')" :active="route().current('suppliers.index')">
                                     Suppliers
                                 </NavLink>
-                                <NavLink :href="route('categories.index')" :active="route().current('categories.index')">
+                                <NavLink :href="route('categories.index')"
+                                    :active="route().current('categories.index')">
                                     Categories
                                 </NavLink>
-                                <NavLink :href="route('admin.index')" :active="route().current('admin.index')">
+                                <NavLink :href="route('staff.index')" :active="route().current('staff.index')">
                                     Staff
                                 </NavLink>
                             </div>

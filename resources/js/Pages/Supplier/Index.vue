@@ -16,7 +16,7 @@ const form = useForm({});
 const deleteSupplier = (id) => {
     if (confirm('Are you sure you want to delete this supplier?')) {
         form.delete(route('suppliers.destroy', id), {
-            onFinish: () => toast.success('Supplier Deleted Successfully')
+            onSuccess: () => toast.success('Supplier Deleted Successfully')
         });
     }
 }

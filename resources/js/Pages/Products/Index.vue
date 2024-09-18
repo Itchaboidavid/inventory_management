@@ -16,7 +16,7 @@ const form = useForm({});
 const deleteProduct = (id) => {
     if (confirm('Are you sure you want to delete this product?')) {
         form.delete(route('products.destroy', id), {
-            onFinish: () => toast.success('Product Deleted Successfully')
+            onSuccess: () => toast.success('Product Deleted Successfully')
         });
     }
 }
@@ -63,13 +63,13 @@ defineProps({
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(supplier, index) in suppliers" :key="index">
-                                    <td>{{ supplier.name }}</td>
-                                    <td>{{ supplier.contact_person }}</td>
-                                    <td>{{ supplier.phone }}</td>
-                                    <td>{{ supplier.email }}</td>
-                                    <td>{{ supplier.address }}</td>
-                                    <td>{{ supplier.address }}</td>
+                                <tr v-for="(product, index) in products" :key="index">
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.description }}</td>
+                                    <td>{{ product.price }}</td>
+                                    <td>{{ product.quantity }}</td>
+                                    <td>{{ product.category.name }}</td>
+                                    <td>{{ product.supplier.name }}</td>
                                     <td>
                                         <Dropdown align="right" width="48">
                                             <template #trigger>
@@ -90,13 +90,13 @@ defineProps({
                                             </template>
 
                                             <template #content>
-                                                <DropdownLink :href="route('suppliers.show', supplier.id)">
+                                                <DropdownLink :href="route('products.show', product.id)">
                                                     <span class="text-blue-500">Show</span>
                                                 </DropdownLink>
-                                                <DropdownLink :href="route('suppliers.edit', supplier.id)">
+                                                <DropdownLink :href="route('products.edit', product.id)">
                                                     <span class="text-green-500">Edit</span>
                                                 </DropdownLink>
-                                                <button type="button" @click="deleteProduct(supplier.id)"
+                                                <button type="button" @click="deleteProduct(product.id)"
                                                     class="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
                                                     <span class="text-red-500">Delete</span>
                                                 </button>

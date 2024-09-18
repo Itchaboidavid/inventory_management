@@ -16,7 +16,7 @@ const toast = useToast();
 
 const handleSubmit = () => {
     form.post(route('categories.store'), {
-        onFinish: () => {
+        onSuccess: () => {
             toast.success('Category Added Successfully');
             form.reset()
         }

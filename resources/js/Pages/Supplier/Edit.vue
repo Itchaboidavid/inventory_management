@@ -23,7 +23,7 @@ const form = useForm({
 
 const handleSubmit = () => {
     form.put(route('suppliers.update', props.supplier.id), {
-        onFinish: () => {
+        onSuccess: () => {
             toast.success('Supplier Updated Successfully');
             form.reset();
         }

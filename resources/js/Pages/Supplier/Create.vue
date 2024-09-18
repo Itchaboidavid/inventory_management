@@ -19,7 +19,7 @@ const toast = useToast();
 
 const handleSubmit = () => {
     form.post(route('suppliers.store'), {
-        onFinish: () => {
+        onSuccess: () => {
             toast.success('Supplier Added Successfully');
             form.reset()
         }

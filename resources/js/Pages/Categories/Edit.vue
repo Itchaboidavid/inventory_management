@@ -20,7 +20,7 @@ const toast = useToast();
 
 const handleSubmit = () => {
     form.put(route('categories.update', props.category.id), {
-        onFinish: () => {
+        onSuccess: () => {
             toast.success('Category Updated Successfully');
             form.reset()
         }
