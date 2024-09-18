@@ -50,6 +50,26 @@ const user = page.props.auth.user;
                             </div>
                         </div>
 
+                        <!-------------------------------------------- User Navigation -------------------------------------------->
+                        <div class="flex" v-else>
+                            <!-- Logo -->
+                            <div class="shrink-0 flex items-center">
+                                <Link :href="route('user.index')">
+                                <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800" />
+                                </Link>
+                            </div>
+
+                            <!-- Navigation Links -->
+                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink :href="route('user.index')" :active="route().current('user.index')">
+                                    Dashboard
+                                </NavLink>
+                                <NavLink :href="route('products.index')" :active="route().current('products.index')">
+                                    Products
+                                </NavLink>
+                            </div>
+                        </div>
+
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
                             <!-- Settings Dropdown -->
                             <div class="ms-3 relative">

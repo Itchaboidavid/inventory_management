@@ -3,7 +3,9 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { onMounted } from 'vue';
+import { ref } from 'vue';
 import { useToast } from 'vue-toastification';
 
 $(document).ready(function () {
@@ -12,6 +14,9 @@ $(document).ready(function () {
 
 const toast = useToast();
 const form = useForm({});
+const page = usePage();
+
+const user = page.props.auth.user;
 
 const deleteProduct = (id) => {
     if (confirm('Are you sure you want to delete this product?')) {
@@ -70,7 +75,7 @@ defineProps({
                                     <td>{{ product.quantity }}</td>
                                     <td>{{ product.category.name }}</td>
                                     <td>{{ product.supplier.name }}</td>
-                                    <td>
+                                    <td v-if="user.role === 'admin'">
                                         <Dropdown align="right" width="48">
                                             <template #trigger>
                                                 <span class="inline-flex rounded-md">
@@ -102,6 +107,9 @@ defineProps({
                                                 </button>
                                             </template>
                                         </Dropdown>
+                                    </td>
+                                    <td v-else>
+
                                     </td>
                                 </tr>
                             </tbody>
