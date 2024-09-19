@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -35,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('suppliers', SupplierController::class);
     Route::resource('categories', CategoryController::class);
+    Route::resource('orders', OrderController::class);
 
     Route::get('/staff', [StaffController::class, 'index'])->name('staff.index');
 });

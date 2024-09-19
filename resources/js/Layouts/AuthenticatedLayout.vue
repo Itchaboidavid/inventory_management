@@ -67,6 +67,9 @@ const user = page.props.auth.user;
                                 <NavLink :href="route('products.index')" :active="route().current('products.index')">
                                     Products
                                 </NavLink>
+                                <NavLink :href="route('orders.index')" :active="route().current('orders.index')">
+                                    Orders
+                                </NavLink>
                             </div>
                         </div>
 

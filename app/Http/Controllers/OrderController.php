@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Order;
+use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 
@@ -13,7 +16,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $orders = Order::with('product', 'user')->get();
+        return Inertia::render('Orders/Index', ['orders' => $orders]);
     }
 
     /**
@@ -29,11 +33,24 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request)
     {
-        //
+        $orderForm = $request->validated();
+
+        $product = Product::findOrFail($orderForm['product_id']);
+
+        if($product->quantity < $orderForm['quantity']) {
+            return back();
+        }
+
+        $product->quantity -= $orderForm['quantity'];
+        $product->save();
+
+        $request->user()->orders()->create($orderForm);
+
+        return redirect()->route('products.index');
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource.x
      */
     public function show(Order $order)
     {
@@ -61,6 +78,16 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+            // Find the product related to the order
+        $product = $order->product;
+
+        // Add the ordered quantity back to the product stock
+        $product->quantity += $order->quantity;
+        $product->save();
+
+        // Delete the order
+        $order->delete();
+
+        return redirect()->route('orders.index');
     }
 }

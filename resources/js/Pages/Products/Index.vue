@@ -17,16 +17,49 @@ onMounted(() => {
     $('#productsTable').DataTable();
 });
 
+defineProps({
+    products: Array
+});
 
 const toast = useToast();
 const form = useForm({});
-const orderForm = useForm({
-    quantity: ''
-});
 const page = usePage();
 const user = page.props.auth.user;
 
+
 const isModalOpen = ref(false);
+const selectedProduct = ref(null);
+
+const orderForm = useForm({
+    product_id: '',
+    quantity: '',
+    price: '',
+    status: ''
+});
+
+const totalPrice = () => {
+    if (selectedProduct) {
+        orderForm.price = orderForm.quantity * selectedProduct.value.price;
+    }
+}
+
+const openModal = (product) => {
+    selectedProduct.value = product;
+    orderForm.product_id = selectedProduct.value.id
+    orderForm.quantity = 1; // Reset quantity on modal open
+    totalPrice(); // Calculate price when opening
+    isModalOpen.value = true;
+}
+
+const placeOrder = () => {
+    orderForm.post(route('orders.store'), {
+        onSuccess: () => {
+            toast.success('Order was placed');
+            isModalOpen.value = false; // Close modal after successful order
+        },
+        onError: () => toast.fail("We can't process your order.")
+    });
+}
 
 const deleteProduct = (id) => {
     if (confirm('Are you sure you want to delete this product?')) {
@@ -35,10 +68,6 @@ const deleteProduct = (id) => {
         });
     }
 }
-
-defineProps({
-    products: Array
-});
 </script>
 
 
@@ -58,7 +87,8 @@ defineProps({
                         <div class="flex justify-between items-center mb-10">
                             <h3 class="text-lg font-semibold"><i class="fa-solid fa-table"></i> Products Table</h3>
 
-                            <Link :href="route('products.create')">
+
+                            <Link :href="route('products.create')" v-if="user.role === 'admin'">
                             <PrimaryButton>Add New Product</PrimaryButton>
                             </Link>
 
@@ -119,24 +149,54 @@ defineProps({
                                     </td>
                                     <td v-else>
                                         <button class="btn btn-primary text-white"
-                                            @click="isModalOpen = true">Order</button>
+                                            @click="openModal(product)">Order</button>
                                         <Teleport to="body">
                                             <div class="modal" :class="{ 'modal-open': isModalOpen }">
                                                 <div class="modal-box">
                                                     <h3 class="font-bold text-lg text-slate-200 text-center">
-                                                        {{ product.name }}
+                                                        {{ selectedProduct?.name }}
                                                     </h3>
-                                                    <form @submit.prevent="handleSubmit">
+                                                    <form @submit.prevent="placeOrder">
+                                                        <input type="hidden" v-model="orderForm.product_id">
                                                         <div class="mt-4">
                                                             <InputLabel for="quantity" value="Quantity"
                                                                 class="text-slate-200" />
 
                                                             <TextInput id="quantity" type="number" min="1"
+                                                                @change="totalPrice"
                                                                 class="mt-1 block w-full text-slate-900"
                                                                 v-model="orderForm.quantity" />
 
                                                             <InputError class="mt-2"
                                                                 :message="orderForm.errors.quantity" />
+                                                        </div>
+
+                                                        <div class="mt-4">
+                                                            <InputLabel for="price" value="Total Price"
+                                                                class="text-slate-200" />
+
+                                                            <TextInput id="price" type="text" readonly
+                                                                class="mt-1 block w-full text-slate-900"
+                                                                v-model="orderForm.price" />
+
+                                                            <InputError class="mt-2"
+                                                                :message="orderForm.errors.price" />
+                                                        </div>
+
+                                                        <div class="mt-4">
+                                                            <InputLabel for="status" value="Order Status" />
+
+                                                            <select name="status" id="status" v-model="orderForm.status"
+                                                                class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full text-slate-900 ">
+                                                                <option value="" selected>--- -- ---</option>
+                                                                <option value="pending">Pending</option>
+                                                                <option value="shipped">Shipped</option>
+                                                                <option value="completed">Completed</option>
+                                                                <option value="cancelled">Cancelled</option>
+                                                            </select>
+
+                                                            <InputError class="mt-2"
+                                                                :message="orderForm.errors.status" />
                                                         </div>
 
                                                         <div class="mt-4">
