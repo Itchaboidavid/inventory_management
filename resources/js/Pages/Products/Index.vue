@@ -118,7 +118,7 @@ defineProps({
                                         </Dropdown>
                                     </td>
                                     <td v-else>
-                                        <button class="btn btn-accent text-white"
+                                        <button class="btn btn-primary text-white"
                                             @click="isModalOpen = true">Order</button>
                                         <Teleport to="body">
                                             <div class="modal" :class="{ 'modal-open': isModalOpen }">
