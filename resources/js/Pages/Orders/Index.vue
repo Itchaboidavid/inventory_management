@@ -43,10 +43,6 @@ defineProps({
                     <div class="p-6 text-gray-900 overflow-auto">
                         <div class="flex justify-between items-center mb-10">
                             <h3 class="text-lg font-semibold"><i class="fa-solid fa-table"></i> Orders Table</h3>
-
-                            <Link :href="route('orders.create')">
-                            <PrimaryButton>Add New Category</PrimaryButton>
-                            </Link>
                         </div>
 
                         <table id="ordersTable" class="display">

@@ -62,7 +62,8 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        //
+        $order->load('product', 'user');
+        return Inertia::render('Orders/Edit', ['order' => $order]);
     }
 
     /**
@@ -70,7 +71,32 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request, Order $order)
     {
-        //
+        $request->validated();
+
+        $product = Product::findOrFail($request->product_id);
+
+        if($order->quantity !== $request['quantity']) {
+            if ( $request->quantity > $order->quantity) {
+                $difference = $request['quantity'] - $order->quantity;
+                if($product->quantity < $difference) {
+                    return back();
+                }
+                $product->quantity -= $difference;
+            } else {
+                $difference = $order->quantity - $request['quantity'];
+                $product->quantity += $difference;
+            }
+
+            $product->save();
+        }
+
+        $order->update([
+            'quantity' => $request['quantity'],
+            'price' => $request['price'],
+            'status' => $request['status'],
+        ]);
+
+        return redirect()->route('orders.index');
     }
 
     /**
