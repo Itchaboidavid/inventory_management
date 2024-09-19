@@ -6,6 +6,7 @@ import TextInput from '@/Components/TextInput.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { useToast } from 'vue-toastification';
+import NavLink from '@/Components/NavLink.vue';
 
 const form = useForm({
     name: '',
@@ -39,7 +40,20 @@ defineProps({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Add Product</h2>
+            <div class="breadcrumbs text-sm text-slate-900">
+                <ul>
+                    <li>
+                        <NavLink :href="route('products.index')" :active="route().current('products.index')">
+                            Products
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink :active="route().current('products.create')">
+                            Add Product
+                        </NavLink>
+                    </li>
+                </ul>
+            </div>
         </template>
 
         <div class="py-12">

@@ -1,6 +1,7 @@
 <script setup>
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import NavLink from '@/Components/NavLink.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
@@ -31,9 +32,21 @@ const handleSubmit = () => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Add Category</h2>
+            <div class="breadcrumbs text-sm text-slate-900">
+                <ul>
+                    <li>
+                        <NavLink :href="route('categories.index')" :active="route().current('categories.index')">
+                            Categories
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink :active="route().current('categories.create')">
+                            Add Category
+                        </NavLink>
+                    </li>
+                </ul>
+            </div>
         </template>
-
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">

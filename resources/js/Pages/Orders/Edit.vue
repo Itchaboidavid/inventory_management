@@ -1,6 +1,7 @@
 <script setup>
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import NavLink from '@/Components/NavLink.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
@@ -40,7 +41,20 @@ const handleSubmit = () => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Edit Order</h2>
+            <div class="breadcrumbs text-sm text-slate-900">
+                <ul>
+                    <li>
+                        <NavLink :href="route('orders.index')" :active="route().current('orders.index')">
+                            Orders
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink :active="route().current('orders.edit')">
+                            Edit Order
+                        </NavLink>
+                    </li>
+                </ul>
+            </div>
         </template>
 
         <div class="py-12">

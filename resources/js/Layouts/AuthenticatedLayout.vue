@@ -47,6 +47,9 @@ const user = page.props.auth.user;
                                 <NavLink :href="route('staff.index')" :active="route().current('staff.index')">
                                     Staff
                                 </NavLink>
+                                <NavLink :href="route('orders.index')" :active="route().current('orders.index')">
+                                    Orders
+                                </NavLink>
                             </div>
                         </div>
 
@@ -144,6 +147,9 @@ const user = page.props.auth.user;
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('staff.index')" :active="route().current('staff.index')">
                             Staff
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('orders.index')" :active="route().current('orders.index')">
+                            Orders
                         </ResponsiveNavLink>
                     </div>
 
