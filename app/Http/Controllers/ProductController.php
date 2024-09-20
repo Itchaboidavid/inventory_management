@@ -39,7 +39,20 @@ class ProductController extends Controller
     {
         $request->validated();
 
-        $product = Product::create($request->all());
+        $product = new Product();
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->quantity = $request->quantity;
+        $product->category_id = $request->category_id;
+        $product->supplier_id = $request->supplier_id;
+    
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('images/products', 'public');
+            $product->image_path = $path; // Store the path in the database
+        }
+    
+        $product->save();
 
         return redirect()->route('products.index');
     }

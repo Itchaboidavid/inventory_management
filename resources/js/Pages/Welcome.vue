@@ -29,8 +29,10 @@ import { Head, Link } from '@inertiajs/vue3';
             <div class="hero-overlay bg-opacity-60"></div>
             <div class="hero-content text-slate-200 text-center">
                 <div class="max-w-screen-lg">
-                    <h1 class="mb-5 text-4xl md:text-5xl font-bold">Welcome to Sari-Store!</h1>
-                    <p class="mb-5 max-w-screen-sm text-md px-6 md:text-lg md:p-0">
+                    <h1 class="mb-5 text-4xl md:text-5xl font-bold" style="text-shadow: 1px 1px 1px black;">Welcome to
+                        Sari-Store!</h1>
+                    <p class="mb-5 max-w-screen-sm text-md px-6 md:text-lg md:p-0"
+                        style="text-shadow: 1px 1px 1px black;">
                         Discover the convenience of your local Sari-Sari store, where community meets essentials. From
                         everyday household items to your favorite snacks and beverages, we’ve got you covered. Shop with
                         us and experience the warmth and service that’s just around the corner.
@@ -43,7 +45,7 @@ import { Head, Link } from '@inertiajs/vue3';
             </div>
         </section>
         <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
-        <section class="hero bg-base-100 min-h-screen">
+        <section class="hero bg-base-100 min-h-screen" style="text-shadow: 1px 1px 3px black;">
             <div
                 class="grid grid-cols-1 place-items-center text-center space-y-6 md:grid-cols-2 md:text-start max-w-screen-lg mx-auto">
                 <img src="storage/images/lolo_store.jpg" class="max-w-sm rounded-lg shadow-2xl" />
@@ -61,7 +63,7 @@ import { Head, Link } from '@inertiajs/vue3';
         </section>
 
         <!-- ---------------------------------------------------------------------------------------------------------------------------- -->
-        <section class="hero bg-base-200 min-h-screen">
+        <section class="hero bg-base-200 min-h-screen" style="text-shadow: 1px 1px 3px black;">
             <div
                 class="grid grid-cols-1 place-items-center text-center space-y-6 md:grid-cols-2 md:text-start max-w-screen-lg mx-auto">
                 <div>

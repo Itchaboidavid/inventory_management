@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('quantity')->default(0);
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('supplier_id')->constrained()->onDelete('cascade');
+            $table->longText('image_path');
             $table->timestamps();
         });
     }

@@ -1,4 +1,5 @@
 <script setup>
+import NavLink from '@/Components/NavLink.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 
@@ -14,45 +15,36 @@ defineProps({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ product.name }}</h2>
+            <div class="breadcrumbs text-sm text-slate-900">
+                <ul>
+                    <li>
+                        <NavLink :href="route('products.index')" :active="route().current('products.index')">
+                            Products
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink :active="route().current('products.show')">
+                            {{ product.name }}
+                        </NavLink>
+                    </li>
+                </ul>
+            </div>
         </template>
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900 w-1/2 mx-auto">
-                        <h3 class="text-xl font-semibold text-center mb-4">{{ product.name }}</h3>
-                        <div class="flex justify-between">
-                            <div class="space-y-4">
-                                <p class="space-x-1">
-                                    <i class="fa-solid fa-icons"></i>
-                                    Name: <b>{{ product.name }}</b>
-                                </p>
-                                <p class="space-x-1 text-wrap">
-                                    <i class="fa-solid fa-circle-info"></i>
-                                    Description: <br> <b class="text-sm">{{ product.description }}</b>
-                                </p>
-                                <p class="space-x-1">
-                                    <i class="fa-solid fa-peso-sign"></i>
-                                    Price: <b>{{ product.price }}</b>
-                                </p>
+                    <div class="p-6 text-gray-900">
+                        <div class="grid grid-cols-1 md:grid-cols-2 bg-base-100 shadow-xl w-1/2 mx-auto">
+                            <figure>
+                                <img :src="`/storage/${product.image_path}`" :alt="product.name"
+                                    class="object-cover w-full h-full" />
+                            </figure>
+                            <div class="card-body text-slate-200">
+                                <h2 class="card-title">{{ product.name }}</h2>
+                                <p>Description: <b>{{ product.description }}</b></p>
+                                <p class="text-justify">Price: <b>{{ product.price }}</b></p>
                             </div>
-
-                            <div class="space-y-4">
-                                <p class="space-x-1">
-                                    <i class="fa-solid fa-percent"></i>
-                                    Quantity: <b>{{ product.quantity }}</b>
-                                </p>
-                                <p class="space-x-1">
-                                    <i class="fa-solid fa-folder-open"></i>
-                                    Category: <b>{{ product.category.name }}</b>
-                                </p>
-                                <p class="space-x-1">
-                                    <i class="fa-solid fa-building"></i>
-                                    Supplier: <b>{{ product.supplier.name }}</b>
-                                </p>
-                            </div>
-
                         </div>
                     </div>
                 </div>

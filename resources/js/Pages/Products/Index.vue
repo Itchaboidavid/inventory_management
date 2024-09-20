@@ -26,7 +26,6 @@ const form = useForm({});
 const page = usePage();
 const user = page.props.auth.user;
 
-
 const isModalOpen = ref(false);
 const selectedProduct = ref(null);
 
@@ -77,13 +76,19 @@ const deleteProduct = (id) => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Products</h2>
+            <div class="flex justify-between items-center">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Products</h2>
+                <Link :href="route('products.create')" v-if="user.role === 'admin'">
+                <PrimaryButton>Add New Product</PrimaryButton>
+                </Link>
+            </div>
         </template>
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900 overflow-auto">
+                <div class="bg-gray-300 overflow-hidden shadow-sm sm:rounded-lg">
+                    <div
+                        class="p-6 text-gray-900 overflow-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-y-10">
 
                         <!-- <div class="flex justify-between items-center mb-10">
                             <h3 class="text-lg font-semibold"><i class="fa-solid fa-table"></i> Products Table</h3>
@@ -214,20 +219,48 @@ const deleteProduct = (id) => {
                                 </tr>
                             </tbody>
                         </table> -->
-                        <div class="card bg-base-100 w-96 shadow-xl">
-                            <figure>
-                                <img src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                                    alt="Shoes" />
+                        <div v-for="(product, index) in products" :key="index"
+                            class="card bg-base-100 max-w-sm md:max-w-xs shadow-xl text-slate-200 h-full">
+                            <figure class="h-[200px] relative">
+                                <img :src="`/storage/${product.image_path}`" :alt="product.name"
+                                    class="object-cover w-full" />
+
+                                <details v-if="user.role === 'admin'" class="dropdown absolute top-0 left-0 z-10">
+                                    <summary class="btn btn-ghost p-2 pt-0 text-slate-900 m-1 text-lg">
+                                        <i class="fa-solid fa-ellipsis"></i>
+                                    </summary>
+                                    <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                                        <DropdownLink :href="route('products.show', product.id)">
+                                            <span class="text-white">Show</span>
+                                        </DropdownLink>
+                                        <DropdownLink :href="route('products.edit', product.id)">
+                                            <span class="text-white">Edit</span>
+                                        </DropdownLink>
+                                        <button type="button" @click="deleteProduct(product.id)"
+                                            class="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">
+                                            <span class="text-white">Delete</span>
+                                        </button>
+                                    </ul>
+                                </details>
                             </figure>
                             <div class="card-body">
-                                <h2 class="card-title">
-                                    Shoes!
+                                <!-- Product Title -->
+                                <h2 class="card-title flex items-center justify-between">
+                                    {{ product.name }}
                                     <div class="badge badge-secondary">NEW</div>
                                 </h2>
-                                <p>If a dog chews shoes whose shoes does he choose?</p>
-                                <div class="card-actions justify-end">
-                                    <div class="badge badge-outline">Fashion</div>
-                                    <div class="badge badge-outline">Products</div>
+                                <!-- Product Description -->
+                                <p>{{ `${product.description.slice(0, 100)}...` }}</p>
+
+                                <!-- Product Category -->
+                                <div class="card-actions justify-end py-3">
+                                    <div class="badge badge-outline">{{ product.category.name }}</div>
+                                </div>
+                                <!-- Order Button -->
+                                <div class="card-footer border-t pt-5">
+                                    <PrimaryButton class="justify-center w-full block" @click="openModal(product)">
+                                        Order
+                                    </PrimaryButton>
                                 </div>
                             </div>
                         </div>
@@ -235,5 +268,58 @@ const deleteProduct = (id) => {
                 </div>
             </div>
         </div>
+        <Teleport to="body">
+            <div class="modal" :class="{ 'modal-open': isModalOpen }">
+                <div class="modal-box">
+                    <h3 class="font-bold text-lg text-slate-200 text-center">
+                        {{ selectedProduct?.name }}
+                    </h3>
+                    <form @submit.prevent="placeOrder">
+                        <input type="hidden" v-model="orderForm.product_id">
+                        <div class="mt-4">
+                            <InputLabel for="quantity" value="Quantity" class="text-slate-200" />
+
+                            <TextInput id="quantity" type="number" min="1" @change="totalPrice"
+                                class="mt-1 block w-full text-slate-900" v-model="orderForm.quantity" />
+
+                            <InputError class="mt-2" :message="orderForm.errors.quantity" />
+                        </div>
+
+                        <div class="mt-4">
+                            <InputLabel for="price" value="Total Price" class="text-slate-200" />
+
+                            <TextInput id="price" type="text" readonly class="mt-1 block w-full text-slate-900"
+                                v-model="orderForm.price" />
+
+                            <InputError class="mt-2" :message="orderForm.errors.price" />
+                        </div>
+
+                        <div class="mt-4">
+                            <InputLabel for="status" value="Order Status" />
+
+                            <select name="status" id="status" v-model="orderForm.status"
+                                class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full text-slate-900 ">
+                                <option value="" selected>--- -- ---</option>
+                                <option value="pending">Pending</option>
+                                <option value="shipped">Shipped</option>
+                                <option value="completed">Completed</option>
+                            </select>
+
+                            <InputError class="mt-2" :message="orderForm.errors.status" />
+                        </div>
+
+                        <div class="mt-4">
+                            <PrimaryButton class="block w-full justify-center"
+                                :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                Place Order
+                            </PrimaryButton>
+                        </div>
+                    </form>
+                    <div class="modal-action">
+                        <button @click="isModalOpen = false" class="btn">Close</button>
+                    </div>
+                </div>
+            </div>
+        </Teleport>
     </AuthenticatedLayout>
 </template>

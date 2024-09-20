@@ -15,6 +15,7 @@ const form = useForm({
     quantity: '',
     category_id: '',
     supplier_id: '',
+    image: null,
 });
 
 const toast = useToast();
@@ -123,6 +124,13 @@ defineProps({
                                 </select>
 
                                 <InputError class="mt-2" :message="form.errors.supplier_id" />
+                            </div>
+
+                            <div class="mt-4">
+                                <InputLabel for="image" value="Image" />
+                                <input type="file" id="image" @change="e => form.image = e.target.files[0]"
+                                    class="mt-1 block w-full" />
+                                <InputError class="mt-2" :message="form.errors.image" />
                             </div>
 
                             <div class="mt-4">
