@@ -1,4 +1,5 @@
 <script setup>
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Head, Link } from '@inertiajs/vue3';
 </script>
 
@@ -30,7 +31,8 @@ import { Head, Link } from '@inertiajs/vue3';
             <div class="hero-content text-slate-200 text-center">
                 <div class="max-w-screen-lg">
                     <h1 class="mb-5 text-4xl md:text-5xl font-bold" style="text-shadow: 1px 1px 1px black;">Welcome to
-                        Sari-Store!</h1>
+                        <span class="text-accent tracking-wider">Sari-Store</span>!
+                    </h1>
                     <p class="mb-5 max-w-screen-sm text-md px-6 md:text-lg md:p-0"
                         style="text-shadow: 1px 1px 1px black;">
                         Discover the convenience of your local Sari-Sari store, where community meets essentials. From
@@ -38,7 +40,9 @@ import { Head, Link } from '@inertiajs/vue3';
                         us and experience the warmth and service that’s just around the corner.
                     </p>
                     <Link :href="route('login')">
-                    <button class="btn btn-accent">Get Started</button>
+                    <PrimaryButton>
+                        Get Started
+                    </PrimaryButton>
                     </Link>
 
                 </div>

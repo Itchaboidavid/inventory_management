@@ -25,7 +25,8 @@ const user = page.props.auth.user;
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('admin.index')">
-                                <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800" />
+                                <span class="text-lg text-accent font-bold tracking-wide hover:underline">Sari
+                                    Store</span>
                                 </Link>
                             </div>
 
