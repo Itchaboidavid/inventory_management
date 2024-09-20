@@ -13,9 +13,9 @@ import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 
-onMounted(() => {
-    $('#productsTable').DataTable();
-});
+// onMounted(() => {
+//     $('#productsTable').DataTable();
+// });
 
 defineProps({
     products: Array
@@ -84,14 +84,12 @@ const deleteProduct = (id) => {
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 overflow-auto">
-                        <div class="flex justify-between items-center mb-10">
+
+                        <!-- <div class="flex justify-between items-center mb-10">
                             <h3 class="text-lg font-semibold"><i class="fa-solid fa-table"></i> Products Table</h3>
-
-
                             <Link :href="route('products.create')" v-if="user.role === 'admin'">
                             <PrimaryButton>Add New Product</PrimaryButton>
                             </Link>
-
                         </div>
 
                         <table id="productsTable" class="display">
@@ -215,7 +213,24 @@ const deleteProduct = (id) => {
                                     </td>
                                 </tr>
                             </tbody>
-                        </table>
+                        </table> -->
+                        <div class="card bg-base-100 w-96 shadow-xl">
+                            <figure>
+                                <img src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                                    alt="Shoes" />
+                            </figure>
+                            <div class="card-body">
+                                <h2 class="card-title">
+                                    Shoes!
+                                    <div class="badge badge-secondary">NEW</div>
+                                </h2>
+                                <p>If a dog chews shoes whose shoes does he choose?</p>
+                                <div class="card-actions justify-end">
+                                    <div class="badge badge-outline">Fashion</div>
+                                    <div class="badge badge-outline">Products</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

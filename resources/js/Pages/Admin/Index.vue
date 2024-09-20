@@ -39,8 +39,8 @@ function drawChart() {
 
     //-----------------------------------------------------------------------------------------------------//
 
-     // Product Data
-     const productData = google.visualization.arrayToDataTable([
+    // Product Data
+    const productData = google.visualization.arrayToDataTable([
         ['Product', 'Stock'],
         ...props.products.map(product => [product.name, product.quantity])
     ]);
