@@ -131,7 +131,7 @@ const user = page.props.auth.user;
                 <!-- Responsive Navigation Menu -->
                 <div :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }"
                     class="sm:hidden">
-                    <div class="pt-2 pb-3 space-y-1">
+                    <div v-if="user.role === 'admin'" class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </ResponsiveNavLink>
@@ -148,6 +148,18 @@ const user = page.props.auth.user;
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('staff.index')" :active="route().current('staff.index')">
                             Staff
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('orders.index')" :active="route().current('orders.index')">
+                            Orders
+                        </ResponsiveNavLink>
+                    </div>
+
+                    <div v-else class="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink :href="route('user.index')" :active="route().current('user.index')">
+                            Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('products.index')" :active="route().current('products.index')">
+                            Products
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('orders.index')" :active="route().current('orders.index')">
                             Orders

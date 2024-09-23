@@ -15,10 +15,10 @@ import { Head, Link } from '@inertiajs/vue3';
                 <div class="flex-none">
                     <ul class="menu menu-horizontal space-x-5">
                         <li>
-                            <Link :href="route('login')">Login</Link>
+                            <Link :href="route('login')" class="btn">Login</Link>
                         </li>
                         <li>
-                            <Link :href="route('register')">Register</Link>
+                            <Link :href="route('register')" class="btn">Register</Link>
                         </li>
                     </ul>
                 </div>
